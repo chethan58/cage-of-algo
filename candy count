@@ -1,0 +1,51 @@
+int ans(int a[],int x,int start,int end){
+  if(start==end){
+    if(x<a[start])return start;
+    else return start+1;
+  }
+  int mid=(start+end)/2;
+  if(a[mid]<=x){
+    if(a[mid+1]>x)return mid+1;
+    else return ans(a,x,mid+1,end);
+  }
+  else{
+    if(a[mid-1]<x)return mid;
+    else return ans(a,x,start,mid);
+  }
+}
+void merge(int a[],int start,int mid,int end){
+  int b[end-start+1],k=0,l=start,m=mid+1;
+  for(int j=start;j<=end;j++){
+    if(l>mid)b[k++]=a[m++];
+    else if(m>end)b[k++]=a[l++];
+    else if(a[l]<a[m])b[k++]=a[l++];
+    else b[k++]=a[m++];
+  }
+  for(int j=start;j<=end;j++){
+    a[j]=b[j-start];
+  }
+}
+void merge_sort(int a[],int start,int end){
+  if(start<end){
+    int mid=(start+end)/2;
+    merge_sort(a,start,mid);
+    merge_sort(a,mid+1,end);
+    merge(a,start,mid,end);
+  }
+}
+int main(){
+    int n;
+    scanf("%d",&n);
+    int a[n];
+    for(int i=0;i<n;i++)
+    scanf("%d",&a[i]);
+    merge_sort(a,0,n-1);
+    int q;
+    scanf("%d",&q);
+    while(q--){
+      int num=0;
+      scanf("%d",&num);
+      printf("%d\n",ans(a,num,0,n-1));
+    }
+    return 0;
+}
