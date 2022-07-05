@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+ 
+int main(){
+  int n,m,z=0;
+  cin>>n>>m;
+  vector <int> c(n,0);
+  while(m--){
+    int u,v;
+    cin>>u>>v;
+    if(v<u)c[v-1]--;
+    else c[u-1]--;
+  }
+  for(int i=0;i<n;i++)
+    if(c[i]==0)z++;
+  int q;
+  cin>>q;
+  while(q--){
+    int x;
+    cin>>x;
+    if(x==3)cout<<z<<endl;
+    else{
+      int u,v;
+      cin>>u>>v;
+      if(x==1){
+        if(v<u){
+            if(c[v-1]==0)z--;
+            c[v-1]--;
+        }
+        else {
+            if(c[u-1]==0)z--;
+            c[u-1]--;
+        }
+      }
+      else {
+        if(v<u){
+            c[v-1]++;
+            if(c[v-1]==0)z++;
+        }
+        else {
+            c[u-1]++;
+            if(c[u-1]==0)z++;
+        }
+      }
+    }
+  }
+  return 0;
+}
